@@ -7,6 +7,7 @@ namespace Excercise1
     {
         [SerializeField] private float speed = 5;
         [SerializeField] private string playerId = "Player";
+
         private ICharacter _player;
         private string _logTag;
 
@@ -20,7 +21,7 @@ namespace Excercise1
         {
             base.OnEnable();
             //TODO: Get the reference to the player.
-            if (_player == null)
+            if (!CharacterService.Instance.TryGetCharacter(playerId, out _player))
                 Debug.LogError($"{_logTag} Player not found!");
         }
 
@@ -28,6 +29,7 @@ namespace Excercise1
         {
             if (_player == null)
                 return;
+
             var direction = _player.transform.position - transform.position;
             transform.position += direction.normalized * (speed * Time.deltaTime);
         }
